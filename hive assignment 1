@@ -78,7 +78,14 @@ ________________________________________________________________________________
 
 Q6. Calculate total sales per year
 Answer ->
+select sum(SALES),YEAR_ID from sales_order_orc group by YEAR_ID;
 
+__________________________________________________________________________________________________________________________
+
+Q7. Find a product for which maximum orders were placed
+Answer ->
+select sum(QUANTITYORDERED),PRODUCTLINE from sales_order_orc group by PRODUCTLINE;
+_______________________________________________________________________________________________________________________
 
 
 
