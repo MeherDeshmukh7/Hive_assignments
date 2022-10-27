@@ -1,4 +1,41 @@
+Q1. Store raw data into hdfs location
+Answer ->
+ hdfs dfs -put /home/cloudera/hive_class/sales_data1.csv /hive_class/
+ 
+_________________________________________________________________________
 
+Q2. Create a internal hive table "sales_order_csv" which will store csv data sales_order_csv .. make sure to skip header row while creating table
+Answer ->
+create table sales_order_csv
+(
+ORDERNUMBER int,
+QUANTITYORDERED int,
+PRICEEACH float,
+ORDERLINENUMBER int,
+SALES float,
+STATUS string,
+QTR_ID int,
+MONTH_ID int,
+YEAR_ID int,
+PRODUCTLINE string,
+MSRP int,
+PRODUCTCODE string,
+PHONE string,
+CITY string,
+STATE string,
+POSTALCODE string,
+COUNTRY string,
+TERRITORY string,
+CONTACTLASTNAME string,
+CONTACTFIRSTNAME string,
+DEALSIZE string
+)
+row format delimited
+fields terminated by ','
+tblproperties("skip.header.line.count"="1");
 
+_____________________________________________________________________________________________________________________________________
 
-
+Q3. Load data from hdfs path into "sales_order_csv"
+Answer ->
+load data inpath '/hive_class/sales_data1.csv' into table sales_order_csv;
