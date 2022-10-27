@@ -82,10 +82,15 @@ select sum(SALES),YEAR_ID from sales_order_orc group by YEAR_ID;
 
 __________________________________________________________________________________________________________________________
 
-Q7. Find a product for which maximum orders were placed
+Q7. Find a product for which maximum orders were placed *********
 Answer ->
 select sum(QUANTITYORDERED),PRODUCTLINE from sales_order_orc group by PRODUCTLINE;
 _______________________________________________________________________________________________________________________
 
+Q8. Calculate the total sales for each quarter
+Answer ->
+select sum(SALES),QTR_ID from sales_order_orc group by QTR_ID;
+___________________________________________________________________________________________________________________________
 
+Q9. In which quarter sales was minimum
 
