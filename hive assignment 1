@@ -76,7 +76,9 @@ Answer ->
 from sales_order_csv insert overwrite table sales_order_orc select *;
 ____________________________________________________________________________________________________________________________
 
-Q6. 
+Q6. Calculate total sales per year
+Answer ->
+
 
 
 
