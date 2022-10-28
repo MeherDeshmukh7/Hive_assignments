@@ -86,6 +86,8 @@ Q7. Find a product for which maximum orders were placed
 Answer ->
 select sum(QUANTITYORDERED) as maxqty,PRODUCTLINE from sales_order_orc group by PRODUCTLINE order by maxqty desc limit 1;
 
+or
+
 select A.PRODUCTLINE from (select sum(QUANTITYORDERED) as maxqty,PRODUCTLINE from sales_order_orc group by PRODUCTLINE order by maxqty desc limit 1)A;
 
 _______________________________________________________________________________________________________________________
@@ -102,13 +104,36 @@ ________________________________________________________________________________
 
 Q10. In which country sales was maximum and in which country sales was minimum
 Answer ->
-select max.sales,max.country,min.sales,min.country from (select sum(SALES) as sales,COUNTRY as country from sales_order_orc group by COUNTRY order by sales desc limit 1)max,(select sum(SALES) sales,COUNTRY as country from sales_order_orc group by COUNTRY order by sales limit 1)min;
+select max.sales,max.country,min.sales,min.country from (
+select sum(SALES) as sales,
+COUNTRY as country 
+from sales_order_orc group by COUNTRY order by sales desc limit 1)max,
+(select sum(SALES) sales,COUNTRY as country from sales_order_orc group by COUNTRY order by sales limit 1)min;
 
 OR
 
-select A.COUNTRY,A.SALES from(select COUNTRY,SALES,rank()over(order by sales)min,rank()over(order by sales desc)max from sales_order_orc)A where min=1 or max=1 order by sales;
+select A.COUNTRY,A.SALES from(
+select COUNTRY,SALES,rank()over(order by sales)min,
+rank()over(order by sales desc)max from sales_order_orc)
+A where min=1 or max=1 order by sales;
 
 ____________________________________________________________________________________________________________________________________________
+
+
+Q11. Calculate quartelry sales for each city
+Answer ->
+select sum(SALES),QTR_ID,CITY from sales_order_orc group by QTR_ID,CITY;
+_________________________________________________________________________________________________________________________________________
+
+Q12. Find a month for each year in which maximum number of quantities were sold
+Answer ->
+select YEAR_ID,MONTH_ID,QUANTITYORDERED from(
+select YEAR_ID,MONTH_ID,QUANTITYORDERED,dense_rank()over(partition by YEAR_ID order by QUANTITYORDERED desc)
+as rank from sales_order_orc)
+a where a.rank=1;
+_________________________________________________________________________________________________________________________________________
+
+
 
 
 
