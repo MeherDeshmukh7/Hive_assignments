@@ -38,7 +38,7 @@ ________________________________________________________________________________
 
 Q3. Load data from hdfs path into "sales_order_csv"
 Answer ->
-load data inpath '/hive_class/sales_data1.csv' into table sales_order_csv;
+load data inpath '/hive_class/sales_order_data1.csv' into table sales_order_csv;
 
 ____________________________________________________________________________________________________________________________________
 
@@ -82,9 +82,12 @@ select sum(SALES),YEAR_ID from sales_order_orc group by YEAR_ID;
 
 __________________________________________________________________________________________________________________________
 
-Q7. Find a product for which maximum orders were placed *********
+Q7. Find a product for which maximum orders were placed
 Answer ->
-select sum(QUANTITYORDERED),PRODUCTLINE from sales_order_orc group by PRODUCTLINE;
+select sum(QUANTITYORDERED) as maxqty,PRODUCTLINE from sales_order_orc group by PRODUCTLINE order by maxqty desc limit 1;
+
+select A.PRODUCTLINE from (select sum(QUANTITYORDERED) as maxqty,PRODUCTLINE from sales_order_orc group by PRODUCTLINE order by maxqty desc limit 1)A;
+
 _______________________________________________________________________________________________________________________
 
 Q8. Calculate the total sales for each quarter
@@ -93,4 +96,26 @@ select sum(SALES),QTR_ID from sales_order_orc group by QTR_ID;
 ___________________________________________________________________________________________________________________________
 
 Q9. In which quarter sales was minimum
+Answer ->
+select sum(SALES) as min_sales,QTR_ID as quarter from sales_order_orc group by QTR_ID order by min_sales limit 1;
+_____________________________________________________________________________________________________________________________
+
+Q10. In which country sales was maximum and in which country sales was minimum
+Answer ->
+select max.sales,max.country,min.sales,min.country from (select sum(SALES) as sales,COUNTRY as country from sales_order_orc group by COUNTRY order by sales desc limit 1)max,(select sum(SALES) sales,COUNTRY as country from sales_order_orc group by COUNTRY order by sales limit 1)min;
+
+OR
+
+select A.COUNTRY,A.SALES from(select COUNTRY,SALES,rank()over(order by sales)min,rank()over(order by sales desc)max from sales_order_orc)A where min=1 or max=1 order by sales;
+
+____________________________________________________________________________________________________________________________________________
+
+
+
+
+
+
+
+
+
 
