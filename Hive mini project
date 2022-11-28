@@ -11,7 +11,7 @@ Note: both files are csv files.
 Answer 
     > create table agent_performance(
     > SL_No int,
-    > Date Date,
+    > Date string,
     > Agent_name string,
     > Total_chats int,
     > Avg_response_time timestamp,
